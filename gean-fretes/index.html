@@ -282,7 +282,7 @@
 
     <div id="loading" class="fixed inset-0 bg-white/90 backdrop-blur-md z-[100] hidden flex flex-col items-center justify-center">
         <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p class="font-black text-blue-600 text-xl animate-pulse tracking-tight text-center px-4">AGUARDE! PREPARANDO SEU WHATSAPP...</p>
+        <p class="font-black text-blue-600 text-xl animate-pulse tracking-tight text-center px-4">AGUARDE! PREPARANDO SUA SOLICITAÇÃO...</p>
     </div>
 
     <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[110] hidden flex items-center justify-center p-4">
@@ -492,7 +492,7 @@
             };
 
             try {
-                const BACKEND_URL = 'https://clientou-frete.onrender.com/send-message';
+                const BACKEND_URL = 'https://prestador-clientou-frete.onrender.com/send-message';
                 
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
