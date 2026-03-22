@@ -26,8 +26,9 @@ app.post('/send-message', async (req, res) => {
     console.log(`Gerando link do WhatsApp para ID: ${prestadorId} | Nome Url: ${nomeUrl}`); 
 
     // Montando a mensagem com os dados e o link promocional dinâmico
+    // O emoji de raio (⚡) foi substituído pelo código Unicode \u26A1 para evitar erros de codificação
     const message = 
-        `⚡ *NOVA SOLICITAÇÃO*\n\n` +
+        `\u26A1 *NOVA SOLICITAÇÃO*\n\n` +
         `- *Cliente:* ${data.name ? data.name.toUpperCase() : 'NÃO INFORMADO'}\n` +
         `- *WhatsApp:* ${data.phone}\n\n` +
         `- *Tipo de Frete:* ${data.type} - ${data.model}\n` +
