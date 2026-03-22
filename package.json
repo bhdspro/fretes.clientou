@@ -1,0 +1,25 @@
+{
+  "name": "clientou-frete-backend",
+  "version": "1.0.0",
+  "description": "API de integração CLIENTOU FRETE",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "keywords": [
+    "clientou",
+    "frete",
+    "mudanca",
+    "whatsapp",
+    "api"
+  ],
+  "author": "CLIENTOU",
+  "license": "ISC"
+}
