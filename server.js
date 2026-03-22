@@ -4,17 +4,15 @@ const cors = require('cors');
 const app = express();
 app.use(express.json());
 
-// CONFIGURAÇÃO DE SEGURANÇA (CORS)
-app.use(cors({
-    origin: ['https://clientou.grupobhds.com', 'http://clientou.grupobhds.com', 'http://127.0.0.1:5500', 'http://localhost:3000', 'https://clientou.online', 'http://clientou.online']
-}));
+// CONFIGURAÇÃO DE SEGURANÇA (CORS) - Liberado para evitar erros de conexão
+app.use(cors());
 
 app.post('/send-message', async (req, res) => {
     const data = req.body;
-    const prestadorId = data.prestadorId;
+    const prestadorId = data.prestadorId; // Variável que busca o número
+    const nomeUrl = data.prestadorNomeUrl || 'clientou'; // Nome que vai no link
 
-    // Busca o número do prestador configurado nas "Environment Variables" do Render
-    // Exemplo: no painel do Render, você cria a chave prestador921 com valor 5511999999999
+    // Busca o número do prestador configurado nas variáveis (ex: prestador921)
     const phone = process.env[prestadorId];
 
     if (!phone) {
@@ -25,9 +23,9 @@ app.post('/send-message', async (req, res) => {
         });
     }
 
-    console.log(`Gerando link do WhatsApp para: ${phone}`); 
+    console.log(`Gerando link do WhatsApp para ID: ${prestadorId} | Nome Url: ${nomeUrl}`); 
 
-    // Montando a mensagem com os dados preenchidos
+    // Montando a mensagem com os dados e o link promocional dinâmico
     const message = 
         `⚡ *NOVA SOLICITAÇÃO*\n\n` +
         `- *Cliente:* ${data.name ? data.name.toUpperCase() : 'NÃO INFORMADO'}\n` +
@@ -40,13 +38,13 @@ app.post('/send-message', async (req, res) => {
         `- *Quando Retirar:* ${data.schedule}\n` +
         `- *Forma de Pagamento:* ${data.payment}\n` +
         `- *Observações:* ${data.notes || 'Nenhuma'}\n\n` +
-        `Quer receber novos clientes diariamente? Acesse https://vip.clientou.online/clientou`;
+        `Quer receber novos clientes diariamente? Acesse https://vip.clientou.online/${nomeUrl}`;
 
     // Codifica o texto para o formato de URL e cria o link do WhatsApp
     const encodedMessage = encodeURIComponent(message);
     const waLink = `https://wa.me/${phone}?text=${encodedMessage}`;
 
-    // Retorna o link para o frontend, para que ele abra o app do WhatsApp no celular/PC do cliente
+    // Retorna o link para o frontend
     res.status(200).json({ success: true, whatsappLink: waLink });
 });
 

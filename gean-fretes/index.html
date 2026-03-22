@@ -310,6 +310,9 @@
     <script>
         lucide.createIcons();
 
+        const PRESTADOR_ID = "prestador001"; 
+        const NOME_DO_PRESTADOR_URL = "gean-fretes"; 
+
         let selectedType = '';
         let selectedHelper = ''; 
         let selectedPayment = ''; 
@@ -416,7 +419,7 @@
             }
         }
 
-        // Lógica de Notificações Fakes (Específico para Fretes)
+        // Lógica de Notificações Fakes
         const fakeNames = ["João C.", "Maria S.", "Roberto T.", "Ana L.", "Carlos E.", "Lucas M.", "Fernanda P.", "Gabriel K.", "Thiago R.", "Juliana M.", "Rodrigo F.", "Amanda B.", "Diego A.", "Patrícia V.", "Marcelo D.", "Camila S.", "Bruno G.", "Letícia C.", "Felipe N.", "Mariana R."];
         const fakeProblems = ["Mudança Residencial", "Frete de Geladeira", "Transporte de Sofá", "Carreto Rápido", "Mudança Comercial", "Frete Grande", "Transporte de Caixas", "Frete de Guarda-Roupa", "Pequena Mudança", "Frete de Móveis", "Transporte de Cama"];
 
@@ -439,11 +442,6 @@
             showFakeNotification();
             setInterval(showFakeNotification, 60000);
         }, 15000);
-
-        // Identifica qual é a variável do prestador (ex: pegando da URL: site.com/?p=prestador921)
-        // Se não tiver na URL, envia 'prestador921' como padrão para o render buscar o número.
-        const urlParams = new URLSearchParams(window.location.search);
-        const prestadorId = urlParams.get('p') || 'prestador888'; 
 
         document.getElementById('freteForm').onsubmit = async (e) => {
             e.preventDefault();
@@ -478,7 +476,8 @@
             loading.classList.remove('hidden');
 
             const formData = {
-                prestadorId: prestadorId, // Envia qual variável o backend deve procurar
+                prestadorId: PRESTADOR_ID, // Pega da constante configurada no topo do JS
+                prestadorNomeUrl: NOME_DO_PRESTADOR_URL, // Pega da constante configurada no topo do JS
                 name: document.getElementById('name').value,
                 phone: document.getElementById('phone').value,
                 type: selectedType,
@@ -493,7 +492,7 @@
             };
 
             try {
-                const BACKEND_URL = 'https://prestador-clientou-frete.onrender.com/send-message';
+                const BACKEND_URL = 'https://clientou-frete.onrender.com/send-message';
                 
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
@@ -504,7 +503,6 @@
                 const result = await response.json();
 
                 if (response.ok && result.success) {
-                    // Tag Manager Conversion
                     gtag('event', 'conversion', {
                         'send_to': 'AW-17688764045/gWQtCKnghfgbEI291PJB',
                         'value': 1.0,
@@ -512,10 +510,7 @@
                         'transaction_id': ''
                     });
 
-                    // Abre o link do WhatsApp gerado pelo backend
                     window.open(result.whatsappLink, '_blank');
-                    
-                    // Mostra mensagem de sucesso na tela atual
                     document.getElementById('successModal').classList.remove('hidden');
                 } else {
                     alert("Erro: " + (result.error || "Tente novamente."));
