@@ -39,7 +39,7 @@ app.post('/send-message', async (req, res) => {
         `- *Quando Retirar:* ${data.schedule}\n` +
         `- *Forma de Pagamento:* ${data.payment}\n` +
         `- *Observações:* ${data.notes || 'Nenhuma'}\n\n` +
-        `Quer receber novos clientes diariamente? Acesse https://vip.clientou.online/${nomeUrl}`;
+        `*Quer receber novos clientes diariamente?* Acesse https://vip.clientou.online/${nomeUrl}`;
 
     // Codifica o texto para o formato de URL e cria o link do WhatsApp
     const encodedMessage = encodeURIComponent(message);

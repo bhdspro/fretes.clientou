@@ -282,7 +282,7 @@
 
     <div id="loading" class="fixed inset-0 bg-white/90 backdrop-blur-md z-[100] hidden flex flex-col items-center justify-center">
         <div class="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-4"></div>
-        <p class="font-black text-blue-600 text-xl animate-pulse tracking-tight">AGUARDE! PREPARANDO SEU WHATSAPP...</p>
+        <p class="font-black text-blue-600 text-xl animate-pulse tracking-tight text-center px-4">AGUARDE! PREPARANDO SEU WHATSAPP...</p>
     </div>
 
     <div id="successModal" class="fixed inset-0 bg-slate-900/80 backdrop-blur-sm z-[110] hidden flex items-center justify-center p-4">
@@ -291,7 +291,7 @@
                 <i data-lucide="check" class="w-12 h-12 stroke-[3]"></i>
             </div>
             <h3 class="text-2xl font-black mb-3 text-slate-800 tracking-tight">TUDO CERTO!</h3>
-            <p class="text-slate-500 text-sm mb-8 leading-relaxed">Você foi redirecionado para o <b>WhatsApp</b> do prestador. Caso não tenha aberto, tente novamente.</p>
+            <p class="text-slate-500 text-sm mb-8 leading-relaxed">Você foi redirecionado para o <b>WhatsApp</b> do prestador.</p>
             <button onclick="window.location.reload()" class="w-full bg-slate-900 text-white py-4 rounded-2xl font-black uppercase tracking-widest shadow-lg transform transition active:scale-95">NOVA SOLICITAÇÃO</button>
         </div>
     </div>
@@ -309,7 +309,7 @@
 
     <script>
         lucide.createIcons();
-
+		
         const PRESTADOR_ID = "prestador001"; 
         const NOME_DO_PRESTADOR_URL = "gean-fretes"; 
 
@@ -492,7 +492,7 @@
             };
 
             try {
-                const BACKEND_URL = 'https://prestador-clientou-frete.onrender.com/send-message';
+                const BACKEND_URL = 'https://clientou-frete.onrender.com/send-message';
                 
                 const response = await fetch(BACKEND_URL, {
                     method: 'POST',
@@ -510,14 +510,19 @@
                         'transaction_id': ''
                     });
 
-                    window.open(result.whatsappLink, '_blank');
+                    // Abre o link do WhatsApp na mesma guia para evitar bloqueios de popup
+                    window.location.href = result.whatsappLink;
+
+                    // Oculta a tela de loading e exibe a mensagem de sucesso
+                    // (Útil caso o usuário utilize o botão "Voltar" do navegador)
+                    loading.classList.add('hidden');
                     document.getElementById('successModal').classList.remove('hidden');
                 } else {
                     alert("Erro: " + (result.error || "Tente novamente."));
+                    loading.classList.add('hidden');
                 }
             } catch (err) {
                 alert("Erro de conexão. Verifique sua internet.");
-            } finally {
                 loading.classList.add('hidden');
             }
         };
