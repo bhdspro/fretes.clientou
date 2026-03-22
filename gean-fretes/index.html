@@ -443,7 +443,7 @@
         // Identifica qual é a variável do prestador (ex: pegando da URL: site.com/?p=prestador921)
         // Se não tiver na URL, envia 'prestador921' como padrão para o render buscar o número.
         const urlParams = new URLSearchParams(window.location.search);
-        const prestadorId = urlParams.get('p') || 'prestador921'; 
+        const prestadorId = urlParams.get('p') || 'prestador888'; 
 
         document.getElementById('freteForm').onsubmit = async (e) => {
             e.preventDefault();
